@@ -22,6 +22,21 @@
     <![endif]-->
 
     <h1>Riksdagens ledamöter</h1>
+    <script>
+        var currentMPs;
 
+        d3.json("http://data.riksdagen.se/personlista/?iid=&fnamn=&enamn=&f_ar=&kn=&parti=&valkrets=&rdlstatus=&org=&utformat=json&termlista=", 
+            function(err, data) {
+                if (err) return console.warn(err);
+                
+                currentMPs = data.personlista.person;
+
+                d3.select("body").selectAll("p")
+                    .data(currentMPs)
+                    .enter()
+                    .append("p")
+                    .text(function(d) {return d.tilltalsnamn + " " + d.efternamn;})
+            })
+    </script>
 </body>
 </html>
