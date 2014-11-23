@@ -25,7 +25,7 @@
     <script>
         var currentMPs;
 
-        d3.json("http://data.riksdagen.se/personlista/?iid=&fnamn=&enamn=&f_ar=&kn=&parti=&valkrets=&rdlstatus=&org=&utformat=json&termlista=", 
+        d3.json("data/141123-members-of-parliament.json", 
             function(err, data) {
                 if (err) return console.warn(err);
                 
