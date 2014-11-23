@@ -25,18 +25,36 @@
     <script>
         var currentMPs;
 
+        // Dimensioner på SVG-elementet
+        var svgWidth = 1000;
+        var svgHeight = 400;
+
+
+        // Läs in ledamöterna från lokal fil och lagra dem i currentMPs
         d3.json("data/141123-members-of-parliament.json", 
             function(err, data) {
                 if (err) return console.warn(err);
-                
                 currentMPs = data.personlista.person;
 
-                d3.select("body").selectAll("p")
+                // Skapa ett SVG-element som innehåller grafiken
+                var svg = d3.select("body")
+                            .append("svg")
+                            .attr("width", svgWidth)
+                            .attr("height", svgHeight)
+                            .attr("class", "container");
+
+                // Bind data till rektanglar i SVG-elementet
+                svg.selectAll("rect")
                     .data(currentMPs)
                     .enter()
-                    .append("p")
-                    .text(function(d) {return d.tilltalsnamn + " " + d.efternamn;})
-            })
+                    .append("rect")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("width", 2)
+                    .attr("height", 100);
+            });
+
     </script>
+
 </body>
 </html>
