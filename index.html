@@ -29,6 +29,10 @@
         var svgWidth = 1000;
         var svgHeight = 400;
 
+        var partyColor = {"M": "#1B49DD", "C": "#009933",
+                  "FP": "#6BB7EC", "KD": "#231977",
+                  "MP": "#83CF39", "S": "#EE2020",
+                  "SD": "#DDDD00", "V": "#AF0000"};
 
         // Läs in ledamöterna från lokal fil och lagra dem i currentMPs
         d3.json("data/141123-members-of-parliament.json", 
@@ -45,13 +49,20 @@
 
                 // Bind data till rektanglar i SVG-elementet
                 svg.selectAll("rect")
-                    .data(currentMPs)
+                    .data(currentMPs.sort(function (a,b) {if (a.parti === b.parti) {
+            return d3.descending(a.fodd_ar, b.fodd_ar);
+        }
+        return d3.ascending(a.parti, b.parti);}))
                     .enter()
                     .append("rect")
-                    .attr("x", 0)
-                    .attr("y", 0)
-                    .attr("width", 1)
-                    .attr("height", 100);
+                    .attr("x", function(d, i) {
+                        return i * 2.5; // 2 px bred + 0.5 px mellanrum
+                    })
+                    .attr("y", function(d) {return 100 - (2014 - d.fodd_ar);})
+                    .attr("width", 2)
+                    .attr("height", function(d) {return 2014 - d.fodd_ar;})
+                    .attr("fill", function(d) {return partyColor[d.parti];})
+                    .append("title").text(function(d) {return d.tilltalsnamn + " " + d.efternamn;});
             });
 
     </script>
